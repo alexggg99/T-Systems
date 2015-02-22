@@ -1,52 +1,64 @@
 package com.transportDB.project.domain.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the tickets database table.
  * 
  */
 @Entity
-@Table(name="tickets")
-@NamedQuery(name="Ticket.findAll", query="SELECT t FROM Ticket t")
+@Table(name = "tickets")
+@NamedQuery(name = "Ticket.findAll", query = "SELECT t FROM Ticket t")
 public class Ticket implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="ticket_id")
+	@Column(name = "ticket_id")
+	@TableGenerator(name = "TABLE_GEN_TK", table = "SEQUENCE_TABLE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "TK_SEQ")
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN_TK")
 	private int ticketId;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="depature_time")
+	@Column(name = "depature_time")
 	private Date depatureTime;
 
-	//bi-directional many-to-one association to Passenger
+	// bi-directional many-to-one association to Passenger
 	@ManyToOne
-	@JoinColumn(name="passenger_id")
+	@JoinColumn(name = "passenger_id")
 	private Passenger passenger;
 
-	//bi-directional many-to-one association to Route
+	// bi-directional many-to-one association to Route
 	@ManyToOne
-	@JoinColumn(name="route_id")
+	@JoinColumn(name = "route_id")
 	private Route route;
 
-	//bi-directional many-to-one association to Station
+	// bi-directional many-to-one association to Station
 	@ManyToOne
-	@JoinColumn(name="station_from")
-	private Station station1;
+	@JoinColumn(name = "station_from")
+	private Station stationFrom;
 
-	//bi-directional many-to-one association to Station
+	// bi-directional many-to-one association to Station
 	@ManyToOne
-	@JoinColumn(name="station_to")
-	private Station station2;
+	@JoinColumn(name = "station_to")
+	private Station stationTo;
 
-	//bi-directional many-to-one association to Train
+	// bi-directional many-to-one association to Train
 	@ManyToOne
-	@JoinColumn(name="train_id")
+	@JoinColumn(name = "train_id")
 	private Train train;
 
 	public Ticket() {
@@ -84,20 +96,20 @@ public class Ticket implements Serializable {
 		this.route = route;
 	}
 
-	public Station getStation1() {
-		return this.station1;
+	public Station getStationFrom() {
+		return this.stationFrom;
 	}
 
-	public void setStation1(Station station1) {
-		this.station1 = station1;
+	public void setStationFrom(Station station) {
+		this.stationFrom = station;
 	}
 
-	public Station getStation2() {
-		return this.station2;
+	public Station getStationTo() {
+		return this.stationTo;
 	}
 
-	public void setStation2(Station station2) {
-		this.station2 = station2;
+	public void setStationTo(Station station) {
+		this.stationTo = station;
 	}
 
 	public Train getTrain() {

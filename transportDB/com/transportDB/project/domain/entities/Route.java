@@ -1,34 +1,50 @@
 package com.transportDB.project.domain.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 /**
  * The persistent class for the routes database table.
  * 
  */
 @Entity
-@Table(name="routes")
-@NamedQuery(name="Route.findAll", query="SELECT r FROM Route r")
+@Table(name = "routes")
+@NamedQuery(name = "Route.findAll", query = "SELECT r FROM Route r")
 public class Route implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="route_id")
+	@Column(name = "route_id")
+	@TableGenerator(name = "TABLE_GEN_RT", table = "SEQUENCE_TABLE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "RT_SEQ")
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN_RT")
 	private int routeId;
 
 	private String name;
 
-	//bi-directional many-to-one association to RouteEntity
-	@OneToMany(mappedBy="route")
+	// bi-directional many-to-one association to RouteEntity
+	@OneToMany(mappedBy = "route")
 	private List<RouteEntity> routeEntities;
 
-	//bi-directional many-to-one association to Ticket
-	@OneToMany(mappedBy="route")
+	// bi-directional many-to-one association to Ticket
+	@OneToMany(mappedBy = "route")
 	private List<Ticket> tickets;
+
+	// bi-directional many-to-one association to Train
+	@ManyToOne
+	@JoinColumn(name = "train_train_id")
+	private Train train;
 
 	public Route() {
 	}
@@ -91,6 +107,14 @@ public class Route implements Serializable {
 		ticket.setRoute(null);
 
 		return ticket;
+	}
+
+	public Train getTrain() {
+		return this.train;
+	}
+
+	public void setTrain(Train train) {
+		this.train = train;
 	}
 
 }

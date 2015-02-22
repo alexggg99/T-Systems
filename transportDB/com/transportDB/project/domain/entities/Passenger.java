@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -28,8 +29,9 @@ public class Passenger implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "passenger_id")
+	@TableGenerator(name = "TABLE_GEN_PS", table = "SEQUENCE_TABLE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "PS_SEQ")
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN_PS")
 	private int passengerId;
 
 	@Temporal(TemporalType.DATE)

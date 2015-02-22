@@ -1,0 +1,128 @@
+INSERT INTO `transportDB`.`trains` (`train_id`, `seats`, `name`) VALUES ('1', '280', 'Train4534');
+INSERT INTO `transportDB`.`trains` (`train_id`, `seats`, `name`) VALUES ('2', '100', 'Train286');
+INSERT INTO `transportDB`.`trains` (`train_id`, `seats`, `name`) VALUES ('3', '140', 'Train113');
+
+INSERT INTO `transportDB`.`roles` (`roles_id`, `name`) VALUES ('1', 'passenger');
+INSERT INTO `transportDB`.`roles` (`roles_id`, `name`) VALUES ('2', 'manager');
+
+
+INSERT INTO `transportDB`.`passengers` (`passenger_id`, `firstName`, `lastName`, `birthday`, `role_id`) VALUES ('1', 'Nikolay', 'Bukov', '1976-12-20', '1');
+INSERT INTO `transportDB`.`passengers` (`passenger_id`, `firstName`, `lastName`, `birthday`, `role_id`) VALUES ('2', 'Stanislav', 'Alexandrov', '1976-08-02', '1');
+INSERT INTO `transportDB`.`passengers` (`passenger_id`, `firstName`, `lastName`, `birthday`, `role_id`) VALUES ('3', 'Misha', 'Vagin', '1976-02-12', '1');
+
+
+INSERT INTO `transportDB`.`stations` (`station_id`, `name`) VALUES ('1', 'Saint-Peterburg');
+INSERT INTO `transportDB`.`stations` (`station_id`, `name`) VALUES ('2', 'Tula');
+INSERT INTO `transportDB`.`stations` (`station_id`, `name`) VALUES ('3', 'Moscow');
+INSERT INTO `transportDB`.`stations` (`station_id`, `name`) VALUES ('4', 'Murmansk');
+INSERT INTO `transportDB`.`stations` (`station_id`, `name`) VALUES ('5', 'Sivino');
+INSERT INTO `transportDB`.`stations` (`station_id`, `name`) VALUES ('6', 'Bercino');
+
+
+
+
+INSERT INTO `transportDB`.`routes` (`route_id`, `name`) VALUES ('1', 'Saint-Petersburg - Moscow');
+INSERT INTO `transportDB`.`routes` (`route_id`, `name`) VALUES ('2', 'Saint-Petersburg - Murmansk');
+
+INSERT INTO `transportDB`.`routeEntity` (`routeEntity_id`, `route_id`, `station_id`, `arrival_time`, `depature_time`, `seqNumber`) VALUES ('1', '1', '1', '2015-02-25 12.00', '2015-02-25 13.00', '1');
+INSERT INTO `transportDB`.`routeEntity` (`routeEntity_id`, `route_id`, `station_id`, `arrival_time`, `depature_time`, `seqNumber`) VALUES ('2', '1', '2', '2015-02-25 18:44:00', '2015-02-25 18:55:00', '2');
+INSERT INTO `transportDB`.`routeEntity` (`routeEntity_id`, `route_id`, `station_id`, `arrival_time`, `seqNumber`) VALUES ('3', '1', '3', '2015-03-25 07:30:00', '3');
+
+INSERT INTO `transportDB`.`routeEntity` (`routeEntity_id`, `route_id`, `station_id`, `arrival_time`, `depature_time`, `seqNumber`) VALUES ('4', '2', '1', '2015-04-12 08:40:00', '2015-04-12 10:40:00', '1');
+INSERT INTO `transportDB`.`routeEntity` (`routeEntity_id`, `route_id`, `station_id`, `arrival_time`, `depature_time`, `seqNumber`) VALUES ('5', '2', '5', '2015-04-13 6:20:00', '2015-04-13 7:00:00', '2');
+INSERT INTO `transportDB`.`routeEntity` (`routeEntity_id`, `route_id`, `station_id`, `arrival_time`, `depature_time`, `seqNumber`) VALUES ('6', '2', '6', '2015-04-13 15:40:00', '2015-04-13 16:00:00', '3');
+INSERT INTO `transportDB`.`routeEntity` (`routeEntity_id`, `route_id`, `station_id`, `arrival_time`, `seqNumber`) VALUES ('7', '2', '4', '2015-04-13 20:20:00', '4');
+
+
+
+
+INSERT INTO `transportDB`.`tickets` (`ticket_id`, `passenger_id`, `train_id`, `route_id`, `depature_time`, `station_from`, `station_to`) VALUES ('1', '1', '2', '1', '2015-02-25 13:00:00', '1', '3');
+INSERT INTO `transportDB`.`tickets` (`ticket_id`, `passenger_id`, `train_id`, `route_id`, `depature_time`, `station_from`, `station_to`) VALUES ('2', '3', '1', '2', '2015-03-1 08:25:00', '1', '4');
+
+
+
+select rt_en.seqNumber, 
+       st.name "station name", 
+       tr.train_id, 
+	   tr.name "train name",
+       rt_en.arrival_time, 
+	   rt_en.depature_time,
+       r.name "route name" 
+  from routes r, trains tr, routeEntity rt_en, stations st
+		where tr.train_id = r.train_train_id
+		and r.route_id = rt_en.route_id
+		and st.station_id = rt_en.station_id
+		and (st.name = "Saint-Peterburg" or st.name = "Sivino")
+		and rt_en.route_id in (
+				-- calculate rows where the same route_id
+				Select rt_en.route_id from routeEntity rt_en, stations st
+				where st.station_id = rt_en.station_id
+				and (st.name = "Saint-Peterburg" or st.name = "Sivino")
+				group by rt_en.route_id
+				having count(*) > 1
+		)
+		and rt_en.arrival_time between '2015-04-11 00:00:00' and '2015-04-13 22:40:00'
+		order by rt_en.seqNumber;
+
+
+Select st.name as "Station", 
+       tr.name as "Train",  
+       rt_en.arrival_time as "Arrival time", 
+       rt_en.depature_time as "Depature time"
+  from trains tr, routeEntity rt_en, stations st, routes r
+  where tr.train_id = r.train_train_id
+		and r.route_id = rt_en.route_id
+		and st.station_id = rt_en.station_id
+        and st.name = "Saint-Peterburg";
+
+-- select all passengers on the train
+Select t.ticket_id, 
+       t.depature_time,
+	   st1.name "From",
+       st2.name "To", 
+	   CONCAT(ps.firstName, ' ' , ps.lastName) "Passenger" 
+from tickets t, stations st1, stations st2, passengers ps
+		where t.station_from = st1.station_id
+		and t.station_to = st2.station_id
+		and t.passenger_id = ps.passenger_id
+        and t.route_id = 2;
+
+-- count passangers on the train
+Select r.route_id,
+       r.name, 
+       count(*) "passengers", 
+       t.train_id
+  from tickets t, routes r
+		where t.route_id = r.route_id
+		group by r.route_id
+		having r.route_id = 2;  -- route
+
+Select seats from trains tr
+  where tr.train_id = 1;
+
+Select count(*) 
+   from tickets t, passengers ps
+		where ps.firstName like "%Misha%"
+		and ps.lastName like "%Vagin%"
+		and ps.birthday = "1976-02-12"
+		and t.passenger_id = ps.passenger_id
+		and t.route_id = 2;
+
+Select rt_en.depature_time from routeEntity rt_en
+where rt_en.route_id = 2
+order by rt_en.seqNumber
+LIMIT 1;
+
+-- veiw all trains
+Select r.route_id,
+	   r.name "Run", 
+       tr.name "Train",
+	   min(rt_en.depature_time) "Depature time"
+from routes r, trains tr, routeEntity rt_en
+where r.train_train_id = tr.train_id
+and rt_en.route_id = r.route_id
+group by r.route_id
+
+
+
+

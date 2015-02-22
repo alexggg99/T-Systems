@@ -1,42 +1,54 @@
 package com.transportDB.project.domain.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the routeEntity database table.
  * 
  */
 @Entity
-@Table(name="routeEntity")
-@NamedQuery(name="RouteEntity.findAll", query="SELECT r FROM RouteEntity r")
+@Table(name = "routeEntity")
+@NamedQuery(name = "RouteEntity.findAll", query = "SELECT r FROM RouteEntity r")
 public class RouteEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@TableGenerator(name = "TABLE_GEN_EN", table = "SEQUENCE_TABLE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "EN_SEQ")
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN_EN")
 	private int routeEntity_id;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="arrival_time")
+	@Column(name = "arrival_time")
 	private Date arrivalTime;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="depature_time")
+	@Column(name = "depature_time")
 	private Date depatureTime;
 
 	private int seqNumber;
 
-	//bi-directional many-to-one association to Route
+	// bi-directional many-to-one association to Route
 	@ManyToOne
-	@JoinColumn(name="route_id")
+	@JoinColumn(name = "route_id")
 	private Route route;
 
-	//bi-directional many-to-one association to Station
+	// bi-directional many-to-one association to Station
 	@ManyToOne
-	@JoinColumn(name="station_id")
+	@JoinColumn(name = "station_id")
 	private Station station;
 
 	public RouteEntity() {

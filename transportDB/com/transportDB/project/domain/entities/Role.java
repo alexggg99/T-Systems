@@ -1,29 +1,38 @@
 package com.transportDB.project.domain.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 /**
  * The persistent class for the roles database table.
  * 
  */
 @Entity
-@Table(name="roles")
-@NamedQuery(name="Role.findAll", query="SELECT r FROM Role r")
+@Table(name = "roles")
+@NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")
 public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="roles_id")
+	@Column(name = "roles_id")
+	@TableGenerator(name = "TABLE_GEN_RL", table = "SEQUENCE_TABLE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "RL_SEQ")
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN_RL")
 	private int rolesId;
 
 	private String name;
 
-	//bi-directional many-to-one association to Passenger
-	@OneToMany(mappedBy="role")
+	// bi-directional many-to-one association to Passenger
+	@OneToMany(mappedBy = "role")
 	private List<Passenger> passengers;
 
 	public Role() {
