@@ -45,6 +45,8 @@ CREATE TABLE IF NOT EXISTS `transportDB`.`passengers` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
+ALTER TABLE `transportDB`.`passengers` 
+ADD COLUMN `password` VARCHAR(45) NULL DEFAULT NULL AFTER `role_id`;
 
 -- -----------------------------------------------------
 -- Table `transportDB`.`routes`
