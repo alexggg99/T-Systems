@@ -8,18 +8,18 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		PassengerDAO pasDAO = new PassengerDAOImpl();
+		//PassengerDAO pasDAO = new PassengerDAOImpl();
 		Passenger pas;
 		// train.setTrainId(17);
 		// /train.setName("TEST5555");
 		// trainDAO.save(train);
 
-		pas = pasDAO.getPassengerByPassword("Vagin");
-		System.out.println(pas.getLastName());
+		//pas = pasDAO.getPassengerByPassword("Vagin");
+		//System.out.println(pas.getLastName());
 
-		for (Passenger p : pasDAO.findAll()) {
-			System.out.println(p.getLastName());
-		}
+//		for (Passenger p : pasDAO.findAll()) {
+//			System.out.println(p.getLastName());
+//		}
 
 		System.out.println("TEST!");
 	}

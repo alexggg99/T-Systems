@@ -2,6 +2,7 @@ package ru.tsystems.project.domain.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +11,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -22,10 +29,17 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "routeEntity")
-@NamedQuery(name = "RouteEntity.findAll", query = "SELECT r FROM RouteEntity r")
+@NamedQueries({
+    @NamedQuery(name = RouteEntity.GETALL, query = "SELECT r FROM RouteEntity r"),
+    @NamedQuery(name = RouteEntity.GETTRAINS, query = "SELECT r FROM RouteEntity r where "
+                + "r.station.name in (:stationName)")
+})
 public class RouteEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+        public static final String GETALL = "RouteEntity.findAll";
+        public static final String GETTRAINS = "RouteEntity.findTrains";
+        
 	@Id
 	@TableGenerator(name = "TABLE_GEN_EN", table = "SEQUENCE_TABLE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "EN_SEQ")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN_EN")
@@ -40,7 +54,7 @@ public class RouteEntity implements Serializable {
 	private Date depatureTime;
 
 	private int seqNumber;
-
+        
 	// bi-directional many-to-one association to Route
 	@ManyToOne
 	@JoinColumn(name = "route_id")
@@ -50,12 +64,12 @@ public class RouteEntity implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "station_id")
 	private Station station;
-
+        
 	public RouteEntity() {
 	}
-
+       
 	public int getRouteEntity_id() {
-		return this.routeEntity_id;
+           return this.routeEntity_id;
 	}
 
 	public void setRouteEntity_id(int routeEntity_id) {

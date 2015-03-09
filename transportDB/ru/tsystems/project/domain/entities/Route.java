@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,9 +22,13 @@ import javax.persistence.TableGenerator;
  */
 @Entity
 @Table(name = "routes")
-@NamedQuery(name = "Route.findAll", query = "SELECT r FROM Route r")
+@NamedQueries({
+@NamedQuery(name = Route.GETALL, query = "SELECT r FROM Route r")
+})
 public class Route implements Serializable {
 	private static final long serialVersionUID = 1L;
+        
+        public static final String GETALL = "Routes.findAll";
 
 	@Id
 	@Column(name = "route_id")

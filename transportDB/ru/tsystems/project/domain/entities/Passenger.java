@@ -3,6 +3,7 @@ package ru.tsystems.project.domain.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -20,119 +22,155 @@ import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the passengers database table.
- * 
+ *
  */
 @Entity
 @Table(name = "passengers")
-@NamedQuery(name = "Passenger.findAll", query = "SELECT p FROM Passenger p")
+@NamedQueries({
+    @NamedQuery(name = Passenger.GETALL, query = "SELECT p FROM Passenger p"),
+    @NamedQuery(name = Passenger.GETPASSONTRAIN, query = "select tr.passenger from Ticket tr where tr.route = :route"),
+    @NamedQuery(name = Passenger.FINDPASSONTRAIN, query = "select tk.passenger from Ticket tk join tk.passenger p "
+            + " where p.firstName = :firstName and p.lastName = :lastName")
+})
 public class Passenger implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "passenger_id")
-	@TableGenerator(name = "TABLE_GEN_PS", table = "SEQUENCE_TABLE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "PS_SEQ")
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN_PS")
-	private int passengerId;
+    private static final long serialVersionUID = 1L;
 
-	@Temporal(TemporalType.DATE)
-	private Date birthday;
+    public static final String GETALL = "Passenger.findAll";
+    public static final String GETPASSONTRAIN = "Passenger.getPassOnTain";
+    public static final String FINDPASSONTRAIN = "Passenger.findPasonTrain";
 
-	private String firstName;
+    @Id
+    @Column(name = "passenger_id")
+    @TableGenerator(name = "TABLE_GEN_PS", table = "SEQUENCE_TABLE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "PS_SEQ")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN_PS")
+    private int passengerId;
 
-	private String lastName;
+    @Temporal(TemporalType.DATE)
+    private Date birthday;
 
-	private String middleName;
+    private String firstName;
 
-	private String password;
+    private String lastName;
 
-	// bi-directional many-to-one association to Role
-	@ManyToOne
-	@JoinColumn(name = "role_id")
-	private Role role;
+    private String middleName;
 
-	// bi-directional many-to-one association to Ticket
-	@OneToMany(mappedBy = "passenger")
-	private List<Ticket> tickets;
+    private String password;
 
-	public Passenger() {
-	}
+    // bi-directional many-to-one association to Role
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
-	public int getPassengerId() {
-		return this.passengerId;
-	}
+    // bi-directional many-to-one association to Ticket
+    @OneToMany(mappedBy = "passenger")
+    private List<Ticket> tickets;
 
-	public void setPassengerId(int passengerId) {
-		this.passengerId = passengerId;
-	}
+    public Passenger() {
+    }
 
-	public Date getBirthday() {
-		return this.birthday;
-	}
+    public int getPassengerId() {
+        return this.passengerId;
+    }
 
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
-	}
+    public void setPassengerId(int passengerId) {
+        this.passengerId = passengerId;
+    }
 
-	public String getFirstName() {
-		return this.firstName;
-	}
+    public Date getBirthday() {
+        return this.birthday;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
 
-	public String getLastName() {
-		return this.lastName;
-	}
+    public String getFirstName() {
+        return this.firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public String getMiddleName() {
-		return this.middleName;
-	}
+    public String getLastName() {
+        return this.lastName;
+    }
 
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public Role getRole() {
-		return this.role;
-	}
+    public String getMiddleName() {
+        return this.middleName;
+    }
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
 
-	public String getPassword() {
-		return this.password;
-	}
+    public Role getRole() {
+        return this.role;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
-	public List<Ticket> getTickets() {
-		return this.tickets;
-	}
+    public String getPassword() {
+        return this.password;
+    }
 
-	public void setTickets(List<Ticket> tickets) {
-		this.tickets = tickets;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public Ticket addTicket(Ticket ticket) {
-		getTickets().add(ticket);
-		ticket.setPassenger(this);
+    public List<Ticket> getTickets() {
+        return this.tickets;
+    }
 
-		return ticket;
-	}
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
 
-	public Ticket removeTicket(Ticket ticket) {
-		getTickets().remove(ticket);
-		ticket.setPassenger(null);
+    public Ticket addTicket(Ticket ticket) {
+        getTickets().add(ticket);
+        ticket.setPassenger(this);
 
-		return ticket;
-	}
+        return ticket;
+    }
 
+    public Ticket removeTicket(Ticket ticket) {
+        getTickets().remove(ticket);
+        ticket.setPassenger(null);
+
+        return ticket;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.birthday);
+        hash = 29 * hash + Objects.hashCode(this.firstName);
+        hash = 29 * hash + Objects.hashCode(this.lastName);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Passenger other = (Passenger) obj;
+        if (this.birthday.equals(other.birthday) && this.firstName.equalsIgnoreCase(other.firstName)
+                && this.lastName.equalsIgnoreCase(other.lastName)) {
+            return true;
+        }
+        return false;
+    }
+    
+    
 }

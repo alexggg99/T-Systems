@@ -22,9 +22,11 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "tickets")
-@NamedQuery(name = "Ticket.findAll", query = "SELECT t FROM Ticket t")
+@NamedQuery(name = Ticket.GETALL, query = "SELECT t FROM Ticket t")
 public class Ticket implements Serializable {
 	private static final long serialVersionUID = 1L;
+        
+        public static final String GETALL = "Tickets.findAll";
 
 	@Id
 	@Column(name = "ticket_id")

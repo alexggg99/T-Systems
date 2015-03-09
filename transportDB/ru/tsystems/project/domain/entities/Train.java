@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,9 +20,15 @@ import javax.persistence.TableGenerator;
  */
 @Entity
 @Table(name = "trains")
-@NamedQuery(name = "Train.findAll", query = "SELECT t FROM Train t")
+@NamedQueries({
+    @NamedQuery(name = Train.FINAALLTRAINS, query = "SELECT t FROM Train t"),
+    @NamedQuery(name = Train.FINDTRAIN, query = "SELECT t FROM Train t where t.trainId = :trainId"),
+})
 public class Train implements Serializable {
 	private static final long serialVersionUID = 1L;
+        
+        public static final String FINAALLTRAINS = "Train.findAll";
+        public static final String FINDTRAIN = "Train.find";
 
 	@Id
 	@Column(name = "train_id")
@@ -37,7 +44,7 @@ public class Train implements Serializable {
 	@OneToMany(mappedBy = "train")
 	private List<Ticket> tickets;
 
-	// bi-directional many-to-one association to Route
+        // bi-directional many-to-one association to Route
 	@OneToMany(mappedBy = "train")
 	private List<Route> routes;
 
@@ -101,7 +108,6 @@ public class Train implements Serializable {
 	public Route addRoute(Route route) {
 		getRoutes().add(route);
 		route.setTrain(this);
-
 		return route;
 	}
 

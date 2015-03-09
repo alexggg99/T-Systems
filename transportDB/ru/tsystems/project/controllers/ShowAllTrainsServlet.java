@@ -1,6 +1,7 @@
 package ru.tsystems.project.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -10,25 +11,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
-import ru.tsystems.project.domain.entities.Station;
-
-import ru.tsystems.project.services.API.StationService;
-import ru.tsystems.project.services.implementations.StationServiceImplementation;
+import ru.tsystems.project.domain.entities.Train;
+import ru.tsystems.project.services.API.TrainService;
+import ru.tsystems.project.services.implementations.TrainServiceImpl;
 
 /**
  * Servlet implementation class FindTickets
  */
-@WebServlet("/controllers/AddStationServlet")
-public class AddStationServlet extends HttpServlet {
+@WebServlet("/controllers/ShowAllTrains")
+public class ShowAllTrainsServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    
+    private static final Logger logger = Logger.getLogger(ShowAllTrainsServlet.class);
 
-    private static final Logger logger = Logger.getLogger(AddStationServlet.class);
-            
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddStationServlet() {
+    public ShowAllTrainsServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,19 +39,14 @@ public class AddStationServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        StationService stationService = new StationServiceImplementation();
+        TrainService trainService = new TrainServiceImpl();
         try {
-            String stationName = request.getParameter("stationName");
-            Station station = null;
-            if(!stationName.isEmpty()){
-                //method returns added station
-                station = stationService.addStation(stationName);
-            }
-   
-            request.setAttribute("isStationInputSucceed", "true");
-
+            List<Train> list = null;
+            //method returns passengers
+            list = trainService.getAllTrains();
+            request.setAttribute("allTrains", list);
             RequestDispatcher requestDispatcher = getServletContext()
-                    .getRequestDispatcher("/cp_employee/cp_employee_main.jsp");
+                    .getRequestDispatcher("/cp_employee/cp_employee_showAllTrains.jsp");
             requestDispatcher.forward(request, response);
         } catch (RuntimeException ex) {
             logger.error(ex);
@@ -62,5 +57,12 @@ public class AddStationServlet extends HttpServlet {
         }
 
     }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.sendRedirect("../login.jsp");
+    }
+    
+    
 
 }

@@ -1,6 +1,9 @@
 package ru.tsystems.project.services.API;
 
 import java.util.List;
+import ru.tsystems.project.domain.entities.Passenger;
+import ru.tsystems.project.domain.entities.Route;
+import ru.tsystems.project.domain.entities.RouteEntity;
 
 import ru.tsystems.project.domain.entities.Ticket;
 import ru.tsystems.project.exceptions.CustomDAOException;
@@ -39,7 +42,17 @@ public interface TicketService {
 	 * @return
 	 * @throws CustomDAOException
 	 */
-	public List<Ticket> getTickets(String cityIn, String cityOut, String date)
+	public List<RouteEntity> getTickets(String cityIn, String cityOut, String date1, String date2)
 			throws CustomDAOException;
-
+        
+        
+        public Ticket saveTicket(RouteEntity routeEntity, String cityFrom, 
+                String cityTo, String departureDate, Passenger passeneger)
+                        throws CustomDAOException;
+        
+        public boolean isEnoughTicketsOnTrain(Route route);
+        
+        public boolean isPassengerOnTrain(Route route, Passenger passenger);
+        
+        public boolean isMoreTh10min(RouteEntity routeEntity);
 }

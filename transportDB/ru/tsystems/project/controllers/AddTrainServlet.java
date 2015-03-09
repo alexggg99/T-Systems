@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 import ru.tsystems.project.domain.entities.Station;
 import ru.tsystems.project.domain.entities.Train;
 
@@ -24,6 +25,8 @@ import ru.tsystems.project.services.implementations.TrainServiceImpl;
 public class AddTrainServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    
+    private static final Logger logger = Logger.getLogger(AddTrainServlet.class);
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -42,19 +45,20 @@ public class AddTrainServlet extends HttpServlet {
         TrainService trainService = new TrainServiceImpl();
         try {
             String trainName = request.getParameter("trainName");
+            int trainSeats = Integer.valueOf(request.getParameter("trainSeats"));
             Train train = null;
-            if(trainName != null){
                 //method returns added station
-                train = trainService.addTrain(trainName);
-            }
+            train = trainService.addTrain(trainName, trainSeats);
 
-            request.setAttribute("station", train);
-
+            request.setAttribute("isTrainInputSucceed", "true");
+            
             RequestDispatcher requestDispatcher = getServletContext()
                     .getRequestDispatcher("/cp_employee/cp_employee_main.jsp");
-            request.setAttribute("trainName", trainName);
+            
             requestDispatcher.forward(request, response);
-        } catch (IOException ex) {
+        } catch (RuntimeException ex) {
+            logger.error(ex);
+            request.setAttribute("exception", ex);
             RequestDispatcher requestDispatcher = getServletContext()
                     .getRequestDispatcher("/cp_employee/error_page.jsp");
             requestDispatcher.forward(request, response);

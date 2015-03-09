@@ -30,7 +30,12 @@ public interface PassengerService {
 	 * @return
 	 * @throws CustomDAOException
 	 */
-	public List<Passenger> getAllPassangersOnTrain(String cityIn,
-			String cityOut, String date) throws CustomDAOException;
+	public List<Passenger> getAllPassangersOnTrain(int trainId) throws CustomDAOException;
+        
+        public Passenger createPasseneger(String firstName, String lastName, String birthday)
+                throws CustomDAOException;
+        
+        public Passenger deletePasseneger(Passenger passenger)
+                throws CustomDAOException; 
 
 }
