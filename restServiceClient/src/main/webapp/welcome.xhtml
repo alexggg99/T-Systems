@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:h="http://java.sun.com/jsf/html">
+
+
+
+    <h:head>
+        <title>REST client</title>
+    </h:head>
+    <h:body>
+        <h1>Input dates</h1>
+        <h:form>
+            <h:panelGrid columns="6">
+                Date from 
+                <h:inputText id="dateFrom" value="#{serviceBean.dateFrom}"
+                             size="20" required="true" label="Date from" >
+                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                </h:inputText>
+                Date to
+                <h:inputText id="dateTo" value="#{serviceBean.dateTo}"
+                             size="20" required="true" label="Date to" >
+                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                </h:inputText> 
+                <h:message for="dateTo" style="color:red" />
+            </h:panelGrid>
+            <h:panelGrid columns="1">
+            Example: 01-04-2015 (date-month-year)<br/><br/>
+            <h:commandButton value="submit" action="#{serviceBean.askService()}"/>
+            <br/>
+            <h:outputText value="#{serviceBean.request}" /><br/><br/>
+            
+            <h:commandButton value="DownLoad pdf" action="#{serviceBean.downloadFile()}"/>
+            </h:panelGrid>
+        </h:form>
+
+
+    </h:body>
+
+</html>
+

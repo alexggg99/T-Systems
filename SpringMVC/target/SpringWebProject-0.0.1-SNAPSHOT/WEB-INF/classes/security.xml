@@ -1,0 +1,29 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+		   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		   http://www.springframework.org/schema/security
+		   http://www.springframework.org/schema/security/spring-security.xsd">
+    <http use-expressions="true" authentication-manager-ref="dao-auth">
+        <intercept-url pattern="/employee_main" access="hasRole('manager')" />
+        <intercept-url pattern="/setRouteEntity" access="hasRole('manager')" />
+        <intercept-url pattern="/addRouteEntity" access="hasRole('manager')" />
+        <intercept-url pattern="/addstation" access="hasRole('manager')" />
+        <intercept-url pattern="/addTrain" access="hasRole('manager')" />
+        <intercept-url pattern="/showAllTrains" access="hasRole('manager')" />
+        <intercept-url pattern="/showPassengers" access="hasRole('manager')" />
+        <!--<intercept-url pattern="/webService/**" access="hasRole('manager')" />-->
+        <form-login login-page="/login" default-target-url='/employee_main'
+                    always-use-default-target='true' authentication-failure-url="/login?isLoginInValid=true"/>
+        <logout logout-url="/logout" logout-success-url="/login"/>
+
+    </http>
+    
+    <authentication-manager id="dao-auth">
+        <authentication-provider user-service-ref="userDetailsService">
+        </authentication-provider>
+    </authentication-manager>
+    
+    
+</beans:beans>

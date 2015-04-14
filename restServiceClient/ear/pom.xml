@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <artifactId>restServiceClient</artifactId>
+        <groupId>ru.tsystems</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ear</artifactId>
+    <name>ear</name>
+    <description>ear</description>
+    <packaging>ear</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>ru.tsystems</groupId>
+            <artifactId>war</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>ru.tsystems</groupId>
+            <artifactId>ejb</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>ejb</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ear-plugin</artifactId>
+                <configuration>
+                    <version>6</version>
+                    <applicationName>ear</applicationName>
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <skinnyWars>true</skinnyWars>
+                    <modules>
+                        <ejbModule>
+                            <groupId>ru.tsystems</groupId>
+                            <artifactId>ejb</artifactId>
+                            <!--<bundleFileName>core.jar</bundleFileName>-->
+                        </ejbModule>
+                        <webModule>
+                            <groupId>ru.tsystems</groupId>
+                            <artifactId>war</artifactId>
+                            <!--<bundleFileName>war.war</bundleFileName>-->
+                            <context-root>/</context-root>
+                        </webModule>
+                    </modules>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</project>

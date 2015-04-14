@@ -1,0 +1,75 @@
+html{
+    height:100%;
+}
+body{
+    margin:0;
+    padding:0;
+    height:100%;
+}
+#wrapper {
+    min-height:100%;
+    background-color:#C0C0C0;
+}
+#empty-div{
+    height: 70px;
+    clear: both;
+}
+.clearfix:after{
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+#header{
+    height: 217px;
+    background-image: url("../cn-ncr.gif");
+    background-repeat: no-repeat;
+    background-position: left top;
+}
+
+#nav{
+    height:35px;
+    background-color:#787878;
+}
+
+#content{
+    margin-top: 15px;
+    margin-left: 15px;
+}
+#page-content{
+    float: left;
+    width: 40%;
+    margin-right: 5%;
+    min-height: 300px;
+    background: #C0C0C0;
+}
+#aside{
+    float: right;
+    width: 55%;
+    min-height: 300px;
+}
+#footer{
+    position: absolute;
+    width: 100%;
+    height: 22%;
+    margin-top: -16px;
+    clear: both;
+    background-color: #787878;
+    color:#909090;
+    font-size: 18px;
+}
+footer span{
+    margin-left: 20px;
+}
+.error-alert {
+    margin: 0 10px 5px 0;
+    text-height: 12px;
+    color: red;
+}
+.input-alert {
+    margin: 0 10px 5px 0;
+    text-height: 12px;
+    color: black;
+}
+

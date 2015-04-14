@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Transport Company</title>
+        <meta name="keywords" content="Transport Company"/>
+        <meta name="description" content="Transport Company"/>
+        <link type="text/css" rel="stylesheet" href="css/common.css"/>
+        <link type="text/css" rel="stylesheet" href="css/menu.css"/>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+        <script type="text/javascript" src="master-script.js"></script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="header">
+            </div><!--header end-->
+            <div id="nav">
+                <div class="menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="login.jsp">Login</a></li>
+                </div>
+            </div><!--nav end-->
+            <div id="content" class="clearfix">
+                <div id="page-content">
+
+                    <form class="pure-form pure-form-aligned" action="controllers/FindTicketsServlet" method="POST">
+                        <fieldset>
+                            <div class="pure-control-group">
+                                <label for="cityFrom">City from</label>
+                                <input id="cityFrom" type="text" placeholder="Saint-Petersburg" name="cityFrom" required>
+                            </div>
+
+                            <div class="pure-control-group">
+                                <label for="cityTo">City to</label>
+                                <input id="cityTo" type="text" placeholder="" name="cityTo" required>
+                            </div>
+
+                            <div class="pure-control-group">
+                                <label for="depatureDate">Date</label>
+                                <input id="depatereDate" type="date" placeholder="" name="depatureDate" required>
+                            </div>
+
+                            <div class="pure-controls">
+
+                                <button class="pure-button">Find!</button>
+                            </div>
+                        </fieldset>
+                    </form>
+
+                </div><!--body end-->
+                <div id="aside">
+                    <form class="pure-form" action="/controllers/FindTrainsStationServlet" method="POST">
+                        <input type="text" class="pure-input-rounded" name="station">
+                        <button type="submit" class="pure-button">Search trains</button>
+                    </form>
+                </div>    
+            </div><!--content end-->
+            <div id="empty-div"></div>
+        </div>	
+        <div id="footer">
+            <span>2015. Transport company. All rights reserved.</span>
+        </div><!--footer end-->
+
+    </body>
+</html>

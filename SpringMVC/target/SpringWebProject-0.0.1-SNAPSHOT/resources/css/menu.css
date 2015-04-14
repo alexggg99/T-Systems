@@ -1,0 +1,39 @@
+div.menu
+{
+    padding:0;
+    list-style-type: none;
+    height: 26px;
+    /*width:500px;margin:0 auto;*//*Uncomment this line to make the menu center-aligned.*/
+}
+
+div.menu li
+{ 
+    border-right:none;
+    list-style-type: none;
+    padding:0;margin:0;
+    float:left;
+    display: block;
+    color:White;
+}
+
+#en, #de{
+    padding-top: 5px;
+    float: right;
+}
+
+div.menu li a
+{
+    padding: 5px 20px;
+    color:White;
+    text-align: left;
+    text-decoration:none;
+    display: block;
+    float: left;
+    font: bold 16px Arial;
+    line-height: 26px;
+}
+
+div.menu li a:hover, div.menu1 li a.current
+{
+    background-position:0 -40px;
+}

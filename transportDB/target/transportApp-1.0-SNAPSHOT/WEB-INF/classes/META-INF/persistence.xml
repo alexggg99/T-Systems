@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+  <!-- Transaction type-->
+  <persistence-unit name="transportDB" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>ru.tsystems.project.domain.entities.Passenger</class>
+    <class>ru.tsystems.project.domain.entities.Role</class>
+    <class>ru.tsystems.project.domain.entities.Route</class>
+    <class>ru.tsystems.project.domain.entities.RouteEntity</class>
+    <class>ru.tsystems.project.domain.entities.Station</class>
+    <class>ru.tsystems.project.domain.entities.Ticket</class>
+    <class>ru.tsystems.project.domain.entities.Train</class>
+    <validation-mode>AUTO</validation-mode>
+    <properties>
+      <property name="javax.persistence.validation.mode" value="AUTO"/>
+      <property name="hibernate.show_sql" value="false"/>
+      <property name="hibernate.format_sql" value="true"/>
+      <!--<property name="hibernate.hbm2ddl.auto" value="validate"/> &lt;!&ndash; update, create, create-drop &ndash;&gt;-->
+      <!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>-->
+      <property name="javax.persistence.validation.group.pre-persist" value="javax.validation.groups.Default"/>
+      <property name="javax.persistence.validation.group.pre-update" value="javax.validation.groups.Default"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/transportDB"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.password" value="wwAP88ws"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+    </properties>
+  </persistence-unit>
+</persistence>

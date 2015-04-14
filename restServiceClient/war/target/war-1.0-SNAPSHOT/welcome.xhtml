@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:h="http://java.sun.com/jsf/html">
+
+
+
+    <h:head>
+        <title>REST client</title>
+    </h:head>
+    <h:body>
+        <h1>Get tickets</h1>
+        <h:form>
+            <h:panelGrid columns="6">
+                Date from 
+                <h:inputText id="dateFrom" value="#{serviceBean.dateFrom}"
+                             size="20" required="true" label="Date from" >
+                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                </h:inputText>
+                Date to
+                <h:inputText id="dateTo" value="#{serviceBean.dateTo}"
+                             size="20" required="true" label="Date to" >
+                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                </h:inputText> 
+                <h:message for="dateTo" style="color:red" />
+            </h:panelGrid>
+            <h:panelGrid columns="1">
+                Example: 01-04-2015 (date-month-year)<br/><br/>
+                <h:commandButton value="ask service" action="#{serviceBean.askService()}"/>
+                <br/>
+
+                <div id="ticketsTable">
+
+                    <table id="customers">
+                        <tr>
+                            <th>Ticket id</th>
+                            <th>Departure Time</th>
+                            <th>Passenger</th>
+                            <th>Route</th>
+                            <th>Station from</th>
+                            <th>Station to</th>
+                            <th>Train name</th>
+                        </tr>
+                    </table>
+
+                </div><br/>
+
+
+
+
+
+                <h:commandButton value="PDF" action="#{serviceBean.downloadFile()}"/>
+            </h:panelGrid>
+        </h:form>
+
+        <h:outputScript library="js" name="jquery.js" />
+
+        <h:outputStylesheet library="css" name="serviceCSS.css" />
+
+
+        <script>
+
+            var json = '#{serviceBean.request}';
+            $.each(JSON.parse(json), function (idx, obj) {
+                drawTable(obj);
+            });
+
+            var insert = '';
+            function drawTable(rowData) {
+                insert = '<tr><td>' + rowData.ticketId + '</td><td>'
+                        + rowData.depatureTime + '</td><td>'
+                        + rowData.passenger +
+                        '</td><td>' + rowData.route +
+                        '</td><td>' + rowData.stationFrom +
+                        '</td><td>' + rowData.stationTo +
+                        '</td><td>' + rowData.train + '</td></tr>';
+                $('#customers').append(insert);
+            }
+
+        </script>
+
+
+    </h:body>
+
+</html>
+

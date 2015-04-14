@@ -1,0 +1,35 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="war:war exploded">
+    <output-path>$PROJECT_DIR$/war/target/war-1.0-SNAPSHOT</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="war" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.sun.faces:jsf-api:2.1.7" />
+          <element id="library" level="project" name="Maven: com.sun.faces:jsf-impl:2.1.7" />
+          <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
+          <element id="library" level="project" name="Maven: javax.servlet:servlet-api:2.5" />
+          <element id="library" level="project" name="Maven: javax.servlet.jsp:jsp-api:2.1" />
+          <element id="library" level="project" name="Maven: com.itextpdf:itextpdf:5.0.6" />
+          <element id="library" level="project" name="Maven: org.bouncycastle:bcmail-jdk14:1.38" />
+          <element id="library" level="project" name="Maven: org.bouncycastle:bcprov-jdk14:1.38" />
+          <element id="library" level="project" name="Maven: org.bouncycastle:bctsp-jdk14:1.38" />
+          <element id="library" level="project" name="Maven: javax:javaee-api:7.0" />
+          <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.5.0" />
+          <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
+          <element id="library" level="project" name="Maven: com.sun.el:el-ri:1.0" />
+          <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.9" />
+          <element id="archive" name="ejb-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="ejb" />
+          </element>
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/war/target/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="war/web/Web" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration>
+
+    <appender name="LOG-FILE-APPENDER" class="org.apache.log4j.FileAppender">
+        <param name="file" value="logs/err.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} [%5p] %c %m at %l%n"/>
+        </layout>
+    </appender>
+    
+    <appender name="DEBUG" class="org.apache.log4j.FileAppender">
+        <param name="file" value="logs/debug.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} [%5p] %c %m at %l%n"/>
+        </layout>
+    </appender>
+
+    <root>
+        <priority value="debug"/>
+        <appender-ref ref="LOG-FILE-APPENDER"/>
+    </root>
+    
+    <logger name="DEBUG_LOGGER">
+        <level value="debug"/>
+        <appender-ref ref="DEBUG"/>
+    </logger>
+
+</log4j:configuration>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+    <definition name="template" template="/WEB-INF/templates/template.jsp">
+        <put-attribute name="header" value="/WEB-INF/templates/header.jsp"/>
+    </definition>
+
+    <definition name="*" extends="template">
+        <put-attribute name="body" value="/WEB-INF/views/home.jsp" />
+    </definition>
+    
+    <definition name="login" extends="template">
+        <put-attribute name="body" value="/WEB-INF/views/login.jsp" />
+    </definition>
+    
+    <definition name="client/cp_client_trains" extends="template">
+        <put-attribute name="body" value="/WEB-INF/views/client/trains_on_station.jsp" />
+    </definition>
+    
+    <definition name="client/cp_client_tickets" extends="template">
+        <put-attribute name="body" value="/WEB-INF/views/client/tickets.jsp" />
+    </definition>
+    
+    <definition name="client/error_page" extends="template">
+        <put-attribute name="body" value="/WEB-INF/views/client/error_page.jsp" />
+    </definition>
+    
+    <definition name="client/ticket_bought" extends="template">
+        <put-attribute name="body" value="/WEB-INF/views/client/ticket_bought.jsp" />
+    </definition>
+
+    <definition name="client/cp_client_buyticket" extends="template">
+        <put-attribute name="body" value="/WEB-INF/views/client/buyticket.jsp" />
+    </definition>
+    
+    <definition name="employee/employee_main" extends="template">
+        <put-attribute name="body" value="/WEB-INF/views/employee/main.jsp" />
+    </definition>
+    
+    <definition name="employee/error_page" extends="template">
+        <put-attribute name="body" value="/WEB-INF/views/employee/error_page.jsp" />
+    </definition>
+    
+    <definition name="employee/cp_employee_showPassengers" extends="template">
+        <put-attribute name="body" value="/WEB-INF/views/employee/showPassengers.jsp" />
+    </definition>
+    
+    <definition name="employee/cp_employee_showAllTrains" extends="template">
+        <put-attribute name="body" value="/WEB-INF/views/employee/showAllTrains.jsp" />
+    </definition>
+    
+    <definition name="employee/cp_employee_add_route" extends="template">
+        <put-attribute name="body" value="/WEB-INF/views/employee/add_route_entity.jsp" />
+    </definition>
+
+</tiles-definitions>
